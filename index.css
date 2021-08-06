@@ -3,5 +3,7 @@ body {
 }
 a {
     color:rgb(134, 19, 187);
-   
+}
+input {
+    display: inline;
 }

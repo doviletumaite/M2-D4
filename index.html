@@ -37,79 +37,94 @@
   </head>
    <body>
 
-    <nav class="navbar navbar-expand-lg" style="background-color: rgba(15, 211, 106, 0.904);">
-        <a class="navbar-brand" href="#" style="font-size:2em; ">TEAM GENERATOR</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav" style="right: 15px;">
-            <a class="nav-link active" href="#">Instructions <span class="sr-only">(current)</span></a>
-            <a class="nav-link" href="#">Help</a>
-          </div>
-        </div>
-      </nav>
-
-      <div class="cointainer" style="margin: 15px">
-        <div class="row">
-<div class="col-6 col-sm-12 py-5 px-5 d-flex align-item-center">
-  <label style="font-weight: bold; padding:5px;">Add a Student</label>
-  <form onsubmit="user-name(event)">
-  <input id="user-name" type="text">
-  <button type="submit" class="btn btn-primary btn-sm" style="background-color: green">Add</button>
-  </form>
-   </div>
-     </div>
-      </div>
-<div class="cointainer" style="margin: 15px">
-    <div class="col-12 ">
-    <table class="table table-striped " style="background-color: rgba(28, 238, 109, 0.493)" >
-        <thead>
-          <tr>
-            <th scope="col">Alumns</th>
-            <th scope="col">Waiting List</th>
-            <th scope="col">Team One</th>
-            <th scope="col">Team Two</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="team-add" calss="list-group">
-            
-            <td class="list-group-item">...</td>
-            <td>...</td>
-            <td>...</td>
-          </tr>
-          <tr>
-            <th scope="row">Paul</th>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-          </tr>
-          <tr>
-            <th scope="row">Bob</th>
-            <td>...</td>
-            <td>...</td>
-            <td>...r</td>
-          </tr>
-        </tbody>
-      </table>
+   
+<div class="container">
+    <div class="row d-flex align-items-center">
+      <div class="col-12 col-sm-6 py-4 d-flex align-items-center">
+        <span class="mx-5">Name of the new member:</span>
+        <form onsubmit="addMember(event)">
+         <input id="input-name" type="text"class="mt-auto"/>
+          <button type="submit" class="btn btn-light m-2">Add</button>
+        </form>
+    
     </div>
+
+    <div class="col-12 col-sm-6 py-4 d-flex align-items-center">
+      <span class="mx-5">teams:</span>
+      <div class="mt-auto">
+  <button class="btn btn-light" onclick="addTeam()">+</button>
+  <span id="teams-number" class="mx-5">2</span>
+  <button class="btn btn-light">-</button>
+</div>
+  </div>
+
+    </div>
+    <div class="col-6 mx-auto">
+      <ul id="team-queue" class="list-group">
+      </ul>
+      <div class="d-flex">
+        <button class="btn btn-light mx-auto my-3" onclick="assign()">Assign</button>
+      </div>
+      
+    </div>
+
+    <div class= "col-12 my-5">
+      <div id="teams-row" class="row">
+    
+      </div>
+    </div>
+
 </div>
 
 <script>
- const username = document.querySelector("#user-name")
- const teamGroup = document.querySelector("team-group")
+ const inputName = document.querySelector("#input-name")
+ const teamQueue = document.querySelector("#team-queue")
+ const teamsNumber = document.querySelector("#teams-number")
+ const teamsRow = document.querySelector("#teams-row")
+ 
 
- function addStudent(event){
-   event.preventDefault ()
-   //console.log(username.value)
-   const td = document.createElement("td")
-   td.classList.add("list-group-item")
-   td.innerHTML = username.value
-
-   teamGroup.appendChild(td)
-
+ function addMember(event){
+   event.preventDefault()
+   //console.log("hello")
+   console.log(inputName.value)
+   const li = document.createElement("li")
+   li.classList.add("list-group-item")
+   li.innerHTML = inputName.value
+   teamQueue.appendChild(li)
  }
+
+window.onload = function () {
+  createTeams()
+}
+
+function createTeams () {
+  for (let i = 0; i < teamsNumber.innerHTML; i++) {
+    teamsRow.innerHTML += `<div class= "col-3 team">
+      <h4>Team ${i+1}</h4>
+      <ul class="list-group">
+        </ul>
+        </div>`
+  }
+
+}
+function addTeam() {
+
+  const teamNumbers = parseInt(teamsNumber.innerHTML) + 1
+  teamsNumber.innerHTML = teamNumbers
+  teamsRow.innerHTML +=  `<div class= "col-3 team">
+      <h4>Team ${teamNumbers}</h4>
+      <ul class="list-group">
+        </ul>
+        </div>`
+}
+
+function assign() {
+  const person = teamQueue.children[0]
+  if(!person) return 
+  const teams = document.querySelectorAll(".team")
+  const randomIndex = Math.floor(Math.random() * teams.length)
+ teams[randomIndex].appendChild(person)
+}
 
 
 </script>
