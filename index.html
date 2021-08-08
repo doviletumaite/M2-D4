@@ -54,7 +54,7 @@
       <div class="mt-auto">
   <button class="btn btn-light" onclick="addTeam()">+</button>
   <span id="teams-number" class="mx-5">2</span>
-  <button class="btn btn-light">-</button>
+  <button class="btn btn-light" onclick="removeTeam()">-</button>
 </div>
   </div>
 
@@ -99,7 +99,7 @@ window.onload = function () {
 
 function createTeams () {
   for (let i = 0; i < teamsNumber.innerHTML; i++) {
-    teamsRow.innerHTML += `<div class= "col-3 team">
+    teamsRow.innerHTML += `<div class= "col-6 col-sm-3 team">
       <h4>Team ${i+1}</h4>
       <ul class="list-group">
         </ul>
@@ -111,7 +111,7 @@ function addTeam() {
 
   const teamNumbers = parseInt(teamsNumber.innerHTML) + 1
   teamsNumber.innerHTML = teamNumbers
-  teamsRow.innerHTML +=  `<div class= "col-3 team">
+  teamsRow.innerHTML +=  `<div class= "col-6 col-sm-3 team">
       <h4>Team ${teamNumbers}</h4>
       <ul class="list-group">
         </ul>
@@ -121,9 +121,36 @@ function addTeam() {
 function assign() {
   const person = teamQueue.children[0]
   if(!person) return 
-  const teams = document.querySelectorAll(".team")
+  const teams = document.querySelectorAll(".team > ul")
   const randomIndex = Math.floor(Math.random() * teams.length)
  teams[randomIndex].appendChild(person)
+ console.log({person, randomIndex})
+}
+
+function removeTeam () {
+    const teamList = document.querySelectorAll(".team > ul")
+    //const lastTeam = teamList[teamList.length -1]
+
+   // for(let child of lastTeam.querySelector("ul").children) {
+    //  teamQueue.appendChild(child)
+   // } 
+
+   const newTeamsN = parseInt(teamsNumber.innerHTML) - 1
+                
+                if (newTeamsN < 2) return
+                
+                
+                teamsNumber.innerHTML = newTeamsN
+                
+                const teamsList = document.querySelectorAll(".team")
+                const lastTeam = teamsList[teamsList.length - 1]
+                
+                const list = lastTeam.querySelector("ul")
+                                
+                while ( list.children.length !== 0 ) {
+                    teamQueue.appendChild(list.children[0])
+                }
+    lastTeam.remove
 }
 
 
